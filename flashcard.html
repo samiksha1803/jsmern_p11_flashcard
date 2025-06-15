@@ -1,0 +1,163 @@
+
+<html>
+<head>
+  <title>Flashcard App</title>
+  <style>
+  * {
+    font-family: 'Segoe UI', sans-serif;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    padding: 5%;
+  }
+
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  h1 {
+    color: #ffffff;
+    text-shadow: 2px 2px 8px #00000060;
+    margin-bottom: 40px;
+  }
+
+  .flip-container {
+    perspective: 1000px;
+    width: 90%;
+    max-width: 420px;
+    margin: auto;
+  }
+
+  .card {
+    position: relative;
+    width: 100%;
+    height: 240px;
+    transition: transform 0.6s ease;
+    transform-style: preserve-3d;
+    cursor: pointer;
+  }
+
+  .flipped {
+    transform: rotateY(180deg);
+  }
+
+  .card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background: linear-gradient(to right, #ffffff, #e3f2fd);
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    padding: 25px;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .card-face:hover {
+    box-shadow: 0 15px 35px rgba(255, 255, 255, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .back {
+    transform: rotateY(180deg);
+  }
+
+  #navBtns {
+    margin-top: 30px;
+  }
+
+  button {
+    padding: 12px 24px;
+    margin: 10px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(145deg, #8e2de2, #4a00e0);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  button:hover {
+    background: linear-gradient(145deg, #4a00e0, #8e2de2);
+    transform: scale(1.07);
+  }
+</style>
+
+</head>
+<body>
+  <h1>📝 Flashcard App</h1>
+
+  <div class="flip-container" onclick="flipCard()">
+    <div class="card" id="card">
+      <div class="card-face front" id="front">Loading...</div>
+      <div class="card-face back" id="back">Loading...</div>
+    </div>
+  </div>
+
+  <div id="navBtns">
+    <button onclick="prevCard()">Previous</button>
+    <button onclick="nextCard()">Next</button>
+  </div>
+
+  <script>
+    const flashcards = [
+      { question: "What is HTML?", answer: "HyperText Markup Language" },
+      { question: "What is CSS?", answer: "Cascading Style Sheets" },
+      { question: "What is JavaScript used for?", answer: "Adding interactivity to websites" },
+      { question: "Capital of India?", answer: "New Delhi" },
+      { question: "Largest planet?", answer: "Jupiter" },
+      { question: "2 + 2 = ?", answer: "4" },
+      { question: "Boiling point of water?", answer: "100°C or 212°F" },
+      { question: "Shortcut for copy?", answer: "Ctrl + C" },
+      { question: "What does CPU stand for?", answer: "Central Processing Unit" },
+      { question: "HTML tag for link?", answer: "<a>" }
+    ];
+
+    let current = 0;
+    let isFlipped = false;
+
+    const card = document.getElementById("card");
+    const front = document.getElementById("front");
+    const back = document.getElementById("back");
+
+    function displayCard() {
+      front.textContent = flashcards[current].question;
+      back.textContent = flashcards[current].answer;
+      card.classList.remove("flipped");
+      isFlipped = false;
+    }
+
+    function flipCard() {
+      card.classList.toggle("flipped");
+      isFlipped = !isFlipped;
+    }
+
+    function nextCard() {
+      current = (current + 1) % flashcards.length;
+      displayCard();
+    }
+
+    function prevCard() {
+      current = (current - 1 + flashcards.length) % flashcards.length;
+      displayCard();
+    }
+
+    displayCard();
+  </script>
+</body>
+</html>
